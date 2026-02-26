@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정선 구암사 | 사주명리 상담 예약</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500&family=Gowun+Dodum&family=Black+Han+Sans&family=Gamja+Flower&family=Hahmlet:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1208; --gold:#c9a84c; --gold-light:#e8c97a;
+  --red:#8b2020; --paper:#fdf6ec; --muted:#7a6a50;
+  --border:rgba(201,168,76,.3); --base:15px;
+  --body-font:'Noto Sans KR',sans-serif;
+  --serif-font:'Noto Serif KR',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:var(--body-font);
+  background:var(--paper);color:var(--ink);
+  min-height:100vh;overflow-x:hidden;
+  font-size:var(--base);
+  transition:font-family .3s;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.06) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 20%,rgba(139,32,32,.04) 0%,transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* ══════════ 상단 툴바 ══════════ */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 16px;
+  background:rgba(26,18,8,.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,168,76,.25);
+  gap:10px; flex-wrap:wrap;
+}
+.tb-left{display:flex;gap:6px;align-items:center;}
+.tb-right{display:flex;gap:6px;align-items:center;}
+
+.tbtn{
+  padding:5px 12px;border:1px solid rgba(201,168,76,.3);
+  background:transparent;color:var(--gold-light);
+  font-family:var(--body-font);font-size:12px;letter-spacing:1px;
+  cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.tbtn:hover,.tbtn.on{background:rgba(201,168,76,.2);border-color:var(--gold);}
+
+.font-sz{display:flex;align-items:center;gap:5px;}
+.fsz-label{font-size:11px;color:rgba(201,168,76,.7);letter-spacing:1px;}
+.fbtn{
+  width:24px;height:24px;border:1px solid rgba(201,168,76,.3);
+  background:transparent;color:var(--gold-light);font-size:15px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;line-height:1;
+}
+.fbtn:hover{background:rgba(201,168,76,.2);border-color:var(--gold);}
+
+/* 글꼴 선택 패널 */
+.font-panel{
+  position:fixed;top:46px;left:0;right:0;z-index:850;
+  background:rgba(26,18,8,.97);
+  border-bottom:1px solid rgba(201,168,76,.25);
+  padding:14px 20px;
+  display:none;gap:10px;flex-wrap:wrap;align-items:center;
+}
+.font-panel.open{display:flex;}
+.fp-label{font-size:11px;color:rgba(201,168,76,.6);letter-spacing:2px;margin-right:6px;}
+.fpbtn{
+  padding:6px 14px;border:1px solid rgba(201,168,76,.25);
+  background:transparent;color:var(--gold-light);
+  font-size:13px;cursor:pointer;transition:all .2s;
+}
+.fpbtn:hover,.fpbtn.sel{background:rgba(201,168,76,.18);border-color:var(--gold);}
+
+/* ══════════ Header ══════════ */
+header{
+  position:relative;text-align:center;
+  padding:82px 20px 54px;
+  border-bottom:1px solid var(--border);z-index:1;overflow:hidden;
+}
+#hdrBg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;z-index:0;display:none;}
+.hdr-inner{position:relative;z-index:1;}
+.upload-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-bottom:18px;padding:7px 16px;
+  border:1px dashed var(--gold);background:rgba(201,168,76,.06);
+  color:var(--muted);font-size:12px;letter-spacing:1px;
+  cursor:pointer;transition:all .2s;
+}
+.upload-btn:hover{background:rgba(201,168,76,.14);color:var(--ink);}
+#photoIn{display:none;}
+.hdr-badge{display:inline-block;font-size:11px;letter-spacing:4px;color:var(--muted);margin-bottom:18px;font-weight:300;}
+.hdr-name{
+  font-family:var(--serif-font);
+  font-size:clamp(42px,8vw,72px);font-weight:700;
+  color:var(--ink);letter-spacing:8px;line-height:1;margin-bottom:8px;
+}
+.hdr-hanja{font-family:var(--serif-font);font-size:clamp(14px,3vw,20px);letter-spacing:6px;color:var(--gold);font-weight:400;margin-top:6px;display:block;}
+.hdr-sub{font-size:13px;color:var(--muted);letter-spacing:3px;margin-top:14px;font-weight:300;}
+
+/* 입금 배너 */
+.bank-banner{
+  background:linear-gradient(135deg,#1a1208 0%,#2d1f0a 100%);
+  color:var(--gold-light);text-align:center;
+  padding:18px 20px;position:relative;z-index:1;
+  border-bottom:1px solid var(--border);
+}
+.bank-banner .bb-title{font-size:.75em;color:rgba(232,201,122,.6);letter-spacing:4px;display:block;margin-bottom:6px;}
+.bank-banner .bb-main{font-family:var(--serif-font);font-size:1.1em;font-weight:600;letter-spacing:2px;}
+.bank-banner .bb-main span{color:rgba(232,201,122,.5);font-size:.8em;margin:0 6px;}
+.bank-banner .bb-note{font-size:.78em;color:rgba(232,201,122,.55);letter-spacing:1px;margin-top:5px;}
+
+/* 구분선 */
+.dvd{display:flex;align-items:center;justify-content:center;gap:16px;padding:16px 0;color:var(--gold);font-size:18px;position:relative;z-index:1;}
+.dvd::before,.dvd::after{content:'';flex:1;max-width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+.dvd::after{background:linear-gradient(90deg,var(--gold),transparent);}
+
+/* ══════════ 예약 폼 영역 ══════════ */
+.hero{text-align:center;padding:44px 20px 26px;position:relative;z-index:1;}
+.hero-t{font-family:var(--serif-font);font-size:clamp(20px,4vw,30px);font-weight:600;color:var(--red);margin-bottom:12px;letter-spacing:4px;text-align:center;width:100%;}
+.hero-d{font-size:.93em;color:var(--muted);line-height:2;max-width:500px;margin:0 auto;font-weight:300;letter-spacing:1px;text-align:center;}
+
+main{max-width:720px;margin:0 auto;padding:10px 24px 80px;position:relative;z-index:1;}
+.fcard{background:rgba(255,255,255,.72);border:1px solid var(--border);border-radius:2px;padding:44px 40px;backdrop-filter:blur(10px);box-shadow:0 4px 40px rgba(26,18,8,.06);position:relative;overflow:hidden;}
+.fcard::before{content:'☯';position:absolute;top:-30px;right:-30px;font-size:120px;color:var(--gold);opacity:.04;pointer-events:none;}
+.slbl{font-family:var(--serif-font);font-size:1.1em;font-weight:600;color:var(--ink);letter-spacing:3px;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;}
+.slbl em{color:var(--gold);font-size:1.2em;font-style:normal;}
+.fg{margin-bottom:24px;}
+
+label{display:block;font-size:.85em;color:var(--muted);letter-spacing:2px;margin-bottom:9px;font-weight:500;text-align:center;}
+.req::after{content:' *';color:var(--red);}
+
+input[type=text],input[type=tel],input[type=date],select,textarea{
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.8);border:1px solid rgba(201,168,76,.25);
+  border-radius:1px;font-size:.93em;
+  font-family:var(--body-font);color:var(--ink);
+  transition:border-color .2s,box-shadow .2s;outline:none;letter-spacing:.5px;
+  text-align:center;
+}
+input[type=date]{
+  text-align:left;
+  padding:18px 20px;
+  cursor:pointer;
+  -webkit-appearance:auto;
+  appearance:auto;
+  font-size:1.15em;
+  font-weight:500;
+  letter-spacing:1px;
+  border:2px solid rgba(201,168,76,.45);
+  background:white;
+  height:62px;
+}
+textarea{text-align:left!important;}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1);background:white;}
+textarea{resize:vertical;min-height:86px;line-height:1.8;}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%23c9a84c' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:42px;}
+
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+
+/* 라디오 */
+.rdg{display:flex;gap:10px;}
+.ri{position:relative;flex:1;}
+.ri input[type=radio]{position:absolute;opacity:0;width:100%;height:100%;cursor:pointer;z-index:2;margin:0;}
+.ri input:checked~label{border-color:var(--gold);background:rgba(201,168,76,.08);}
+.ri label{display:flex;align-items:center;gap:8px;padding:12px 16px;border:1px solid rgba(201,168,76,.25);cursor:pointer;transition:all .2s;font-size:.93em;color:var(--ink);letter-spacing:1px;margin:0;}
+.rdot{width:14px;height:14px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ri input:checked~label .rdot::after{content:'';width:7px;height:7px;background:var(--gold);border-radius:50%;}
+
+/* 일지 스님 안내 박스 */
+.monk-note{
+  background:rgba(201,168,76,.07);
+  border:1px solid rgba(201,168,76,.35);
+  border-radius:2px;
+  padding:16px 18px;
+  margin-bottom:24px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.monk-note .mn-icon{font-size:24px;flex-shrink:0;line-height:1.2;}
+.monk-note .mn-text{font-size:.87em;color:var(--ink);line-height:1.9;letter-spacing:.5px;}
+.monk-note .mn-text strong{color:var(--red);font-weight:600;}
+
+/* 입금 안내 박스 */
+.bank-note{
+  background:rgba(139,32,32,.04);
+  border:1px solid rgba(139,32,32,.18);
+  border-radius:2px;
+  padding:18px 20px;
+  margin:24px 0;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.bank-note .bn-icon{font-size:22px;flex-shrink:0;line-height:1.3;}
+.bank-note .bn-body{font-size:.87em;color:var(--ink);line-height:1.9;letter-spacing:.5px;}
+.bank-note .bn-body .bn-title{font-weight:700;color:var(--red);letter-spacing:2px;margin-bottom:4px;display:block;}
+.bank-note .bn-body .acct{font-family:var(--serif-font);font-size:1.05em;color:var(--ink);font-weight:600;letter-spacing:1px;}
+.bank-note .bn-body .acct-name{font-size:.85em;color:var(--muted);margin-left:6px;}
+
+.nbox{background:rgba(139,32,32,.03);border-left:3px solid var(--red);border-radius:0 2px 2px 0;padding:16px 18px;margin:24px 0;font-size:.87em;color:var(--muted);line-height:2;letter-spacing:.5px;}
+.nbox strong{color:var(--red);font-weight:600;display:block;margin-bottom:5px;letter-spacing:1px;}
+
+.subbtn{width:100%;padding:17px;background:var(--ink);color:var(--gold-light);border:none;font-family:var(--serif-font);font-size:1em;font-weight:600;letter-spacing:6px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;margin-top:10px;}
+.subbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(201,168,76,.1),transparent);transform:translateX(-100%);transition:transform .6s;}
+.subbtn:hover{background:#2a1f10;letter-spacing:8px;}
+.subbtn:hover::before{transform:translateX(100%);}
+
+/* ══════════ Footer ══════════ */
+footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border);font-size:.8em;color:var(--muted);letter-spacing:1px;line-height:2.5;position:relative;z-index:1;}
+
+/* ══════════ 예약 완료 모달 ══════════ */
+.movl{position:fixed;inset:0;background:rgba(26,18,8,.75);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.movl.on{opacity:1;pointer-events:all;}
+.mbox{background:var(--paper);border:1px solid var(--border);max-width:460px;width:100%;padding:46px 38px;text-align:center;transform:translateY(20px);transition:transform .3s;}
+.movl.on .mbox{transform:translateY(0);}
+.mico{font-size:46px;margin-bottom:18px;display:block;}
+.mtit{font-family:var(--serif-font);font-size:1.35em;font-weight:700;color:var(--ink);letter-spacing:3px;margin-bottom:10px;}
+.mdsc{font-size:.87em;color:var(--muted);line-height:2;letter-spacing:.5px;margin-bottom:8px;}
+.minf{background:rgba(201,168,76,.08);border:1px solid var(--border);padding:16px 20px;margin:18px 0;font-size:.87em;color:var(--ink);line-height:2.1;text-align:left;letter-spacing:.5px;}
+.minf .mbank{margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);color:var(--red);font-weight:600;}
+.mclose{padding:13px 38px;background:var(--ink);color:var(--gold-light);border:none;font-family:var(--serif-font);font-size:.93em;letter-spacing:4px;cursor:pointer;transition:all .2s;margin-top:10px;}
+.mclose:hover{background:#2a1f10;}
+
+/* ══════════ 비밀번호 모달 ══════════ */
+.pwovl{position:fixed;inset:0;background:rgba(26,18,8,.82);backdrop-filter:blur(6px);z-index:1100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.pwovl.on{opacity:1;pointer-events:all;}
+.pwbox{background:var(--paper);border:1px solid var(--border);padding:48px 38px;width:100%;max-width:350px;text-align:center;transform:translateY(20px);transition:transform .3s;}
+.pwovl.on .pwbox{transform:translateY(0);}
+.pwtit{font-family:var(--serif-font);font-size:1.15em;font-weight:700;letter-spacing:3px;color:var(--ink);margin-bottom:6px;}
+.pwsub{font-size:.8em;color:var(--muted);letter-spacing:1px;margin-bottom:24px;}
+.pwinp{width:100%;padding:14px;border:1px solid var(--border);background:white;font-size:1.4em;letter-spacing:12px;text-align:center;font-family:var(--serif-font);outline:none;color:var(--ink);margin-bottom:10px;}
+.pwinp:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1);}
+.pwerr{font-size:.8em;color:var(--red);letter-spacing:1px;height:20px;margin-bottom:8px;}
+.pwok{width:100%;padding:13px;background:var(--ink);color:var(--gold-light);border:none;font-family:var(--serif-font);font-size:.93em;letter-spacing:4px;cursor:pointer;transition:all .2s;margin-bottom:10px;}
+.pwok:hover{background:#2a1f10;}
+.pwcnc{background:none;border:none;font-size:.8em;color:var(--muted);cursor:pointer;letter-spacing:1px;text-decoration:underline;}
+
+/* ══════════ 관리자 패널 ══════════ */
+#adminView{display:none;}
+.apanel{max-width:980px;margin:0 auto;padding:80px 24px 80px;}
+.ahdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px;}
+.ahtit{font-family:var(--serif-font);font-size:1.35em;font-weight:700;letter-spacing:3px;color:var(--ink);}
+.ahtit em{color:var(--gold);font-style:normal;}
+.alout{padding:7px 18px;background:none;border:1px solid var(--border);color:var(--muted);font-size:.8em;letter-spacing:2px;cursor:pointer;transition:all .2s;font-family:var(--body-font);}
+.alout:hover{border-color:var(--red);color:var(--red);}
+.astats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
+.scard{background:rgba(255,255,255,.7);border:1px solid var(--border);padding:20px;text-align:center;}
+.snum{font-family:var(--serif-font);font-size:2em;font-weight:700;color:var(--gold);display:block;}
+.slb{font-size:.8em;color:var(--muted);letter-spacing:1px;margin-top:4px;}
+.aflt{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+.fltbtn{padding:6px 16px;border:1px solid var(--border);background:white;color:var(--muted);font-size:.8em;letter-spacing:1px;cursor:pointer;transition:all .2s;font-family:var(--body-font);}
+.fltbtn.on,.fltbtn:hover{background:var(--ink);color:var(--gold-light);border-color:var(--ink);}
+.fsrch{flex:1;min-width:180px;padding:7px 14px;border:1px solid var(--border);font-size:.87em;font-family:var(--body-font);color:var(--ink);outline:none;background:white;}
+.fsrch:focus{border-color:var(--gold);}
+.rlist{display:flex;flex-direction:column;gap:12px;}
+.rcard{background:rgba(255,255,255,.84);border:1px solid var(--border);padding:20px 24px;transition:box-shadow .2s;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;}
+.rcard:hover{box-shadow:0 4px 20px rgba(26,18,8,.08);}
+.rname{font-family:var(--serif-font);font-size:1.05em;font-weight:700;color:var(--ink);letter-spacing:1px;margin-bottom:6px;}
+.gbadge{font-size:.74em;font-weight:400;background:rgba(201,168,76,.15);color:var(--gold);padding:2px 8px;border-radius:20px;margin-left:8px;letter-spacing:0;}
+.rdet{font-size:.82em;color:var(--muted);line-height:2;letter-spacing:.3px;}
+.rdet strong{color:var(--ink);font-weight:500;}
+.rvis{text-align:right;font-size:.82em;color:var(--muted);}
+.vdate{font-family:var(--serif-font);font-size:.95em;color:var(--red);font-weight:600;letter-spacing:1px;display:block;margin-bottom:4px;}
+.rtbadge{display:inline-block;padding:3px 10px;background:rgba(139,32,32,.07);border:1px solid rgba(139,32,32,.18);color:var(--red);font-size:.78em;letter-spacing:.5px;}
+.rno{font-size:.72em;color:rgba(122,106,80,.45);letter-spacing:1px;display:block;margin-top:4px;}
+.rdel{padding:5px 12px;background:none;border:1px solid rgba(139,32,32,.2);color:rgba(139,32,32,.5);font-size:.75em;letter-spacing:1px;cursor:pointer;transition:all .2s;font-family:var(--body-font);margin-top:6px;display:block;}
+.rdel:hover{background:var(--red);color:white;border-color:var(--red);}
+.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:.93em;letter-spacing:1px;}
+.empty .ei{font-size:40px;display:block;margin-bottom:14px;opacity:.45;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* 불교 글귀 */
+.buddha-quote {
+  text-align: center;
+  padding: 36px 24px 20px;
+  position: relative;
+  z-index: 1;
+}
+.bq-inner {
+  max-width: 620px;
+  margin: 0 auto;
+  background: rgba(201,168,76,.05);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 32px 36px;
+  position: relative;
+}
+.bq-inner::before, .bq-inner::after {
+  content: '◈';
+  position: absolute;
+  color: var(--gold);
+  opacity: .3;
+  font-size: 10px;
+}
+.bq-inner::before { top: 10px; left: 14px; }
+.bq-inner::after  { bottom: 10px; right: 14px; }
+.bq-icon { font-size: 28px; display: block; margin-bottom: 14px; }
+.bq-text {
+  font-family: var(--serif-font);
+  font-size: 1.08em;
+  color: var(--ink);
+  line-height: 2;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  border: none;
+  font-style: normal;
+}
+.bq-sub {
+  font-size: .82em;
+  color: var(--muted);
+  line-height: 2;
+  letter-spacing: .5px;
+}
+
+
+/* ══════════ 일지스님 소개 ══════════ */
+.monk-intro {
+  position: relative; z-index: 1;
+  padding: 40px 24px;
+  background: linear-gradient(180deg, rgba(26,18,8,0.03) 0%, rgba(201,168,76,0.04) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.mi-inner {
+  max-width: 720px; margin: 0 auto;
+  display: flex; gap: 36px; align-items: flex-start;
+  flex-wrap: wrap;
+}
+.mi-photo-wrap {
+  flex-shrink: 0; width: 160px;
+}
+.mi-photo-placeholder {
+  width: 160px; height: 200px;
+  border: 2px dashed var(--border);
+  background: rgba(201,168,76,0.05);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; position: relative; overflow: hidden;
+  border-radius: 2px;
+}
+.mi-photo-placeholder #monkPhoto {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.mi-photo-icon { font-size: 40px; opacity: .4; }
+.mi-upload-btn {
+  font-size: 11px; color: var(--muted);
+  border: 1px dashed var(--gold); padding: 5px 10px;
+  cursor: pointer; letter-spacing: 1px;
+  background: rgba(201,168,76,0.06);
+  transition: all .2s; z-index: 2; position: relative;
+}
+.mi-upload-btn:hover { background: rgba(201,168,76,0.15); color: var(--ink); }
+#monkPhotoIn { display: none; }
+.mi-content { flex: 1; min-width: 220px; }
+.mi-tag {
+  font-size: 11px; letter-spacing: 4px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 10px;
+  border-left: 3px solid var(--gold); padding-left: 10px;
+}
+.mi-name {
+  font-family: var(--serif-font);
+  font-size: clamp(22px, 4vw, 32px); font-weight: 700;
+  color: var(--ink); letter-spacing: 6px; margin-bottom: 14px;
+}
+.mi-name .mi-hanja {
+  font-size: .55em; color: var(--gold); letter-spacing: 3px;
+  font-weight: 400; vertical-align: middle; margin-left: 8px;
+}
+.mi-divider {
+  width: 40px; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin-bottom: 16px;
+}
+.mi-desc {
+  font-size: .93em; color: var(--muted);
+  line-height: 2.2; letter-spacing: .5px;
+  margin-bottom: 20px; display: block;
+}
+.mi-info {
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: .85em; color: var(--muted); letter-spacing: .5px;
+}
+.mi-info span { display: flex; align-items: center; gap: 6px; }
+
+
+/* ══════════ 커스텀 달력 ══════════ */
+.cal-widget{
+  border:2px solid rgba(201,168,76,.35);
+  border-radius:4px;
+  background:white;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(26,18,8,.08);
+}
+.cal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--ink);
+  padding:14px 18px;
+}
+.cal-title{
+  font-family:var(--serif-font);
+  font-size:1.05em;font-weight:700;
+  color:var(--gold-light);letter-spacing:3px;
+}
+.cal-nav{
+  background:none;border:1px solid rgba(201,168,76,.3);
+  color:var(--gold-light);width:32px;height:32px;
+  cursor:pointer;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;border-radius:2px;
+}
+.cal-nav:hover{background:rgba(201,168,76,.2);border-color:var(--gold);}
+.cal-days-label{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  background:rgba(201,168,76,.08);
+  border-bottom:1px solid rgba(201,168,76,.2);
+}
+.cal-days-label span{
+  text-align:center;padding:10px 0;
+  font-size:.8em;font-weight:600;letter-spacing:1px;color:var(--muted);
+}
+.cal-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  padding:8px;gap:4px;
+}
+.cal-day{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-size:.9em;cursor:pointer;border-radius:50%;
+  transition:all .2s;color:var(--ink);font-weight:400;
+  border:2px solid transparent;
+}
+.cal-day:hover:not(.cal-empty):not(.cal-past){
+  background:rgba(201,168,76,.15);
+  border-color:rgba(201,168,76,.4);
+}
+.cal-day.cal-empty{cursor:default;}
+.cal-day.cal-past{color:rgba(122,106,80,.3);cursor:not-allowed;}
+.cal-day.cal-today{
+  font-weight:700;color:var(--red);
+  border-color:rgba(139,32,32,.25);
+}
+.cal-day.cal-selected{
+  background:var(--ink)!important;
+  color:var(--gold-light)!important;
+  border-color:var(--ink)!important;
+  font-weight:700;
+}
+.cal-day.cal-sun{color:var(--red);}
+.cal-day.cal-sat{color:#4a6fa5;}
+.cal-day.cal-past.cal-sun,.cal-day.cal-past.cal-sat{color:rgba(122,106,80,.3);}
+.cal-selected{
+  text-align:center;padding:12px;
+  background:rgba(201,168,76,.08);
+  border-top:1px solid rgba(201,168,76,.2);
+  font-family:var(--serif-font);
+  font-size:.93em;color:var(--muted);letter-spacing:1px;
+}
+.cal-selected.picked{color:var(--red);font-weight:600;}
+
+/* ══════════ 인라인 편집 ══════════ */
+.editable{
+  outline:none;cursor:text;
+  border-bottom:1px dashed rgba(201,168,76,.4);
+  padding:1px 4px;border-radius:2px;
+  transition:background .2s,border-color .2s;
+  min-width:10px;display:inline-block;
+}
+.editable:hover{
+  background:rgba(201,168,76,.12);
+  border-color:var(--gold);
+}
+.editable:focus{
+  background:rgba(201,168,76,.18);
+  border-color:var(--gold);
+  border-bottom-style:solid;
+}
+.edit-hint{
+  position:fixed;bottom:70px;left:50%;transform:translateX(-50%);
+  background:rgba(26,18,8,.85);color:var(--gold-light);
+  padding:8px 18px;font-size:12px;letter-spacing:1px;
+  border:1px solid var(--border);z-index:400;
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.edit-hint.show{opacity:1;}
+
+header{animation:fadeUp .6s ease both;}
+.bank-banner{animation:fadeUp .6s ease .05s both;}
+.hero{animation:fadeUp .6s ease .1s both;}
+.fcard{animation:fadeUp .6s ease .15s both;}
+
+@media(max-width:600px){
+  .fcard{padding:30px 18px;}
+  .r2{grid-template-columns:1fr;}
+  .r3{grid-template-columns:1fr 1fr;}
+  .rdg{flex-direction:column;}
+  .astats{grid-template-columns:1fr 1fr;}
+  .rcard{grid-template-columns:1fr;}
+  .rvis{text-align:left;}
+  .top-bar{padding:6px 10px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ 상단 툴바 ══════ -->
+<div class="top-bar">
+  <div class="tb-left">
+    <button class="tbtn" onclick="toggleFontPanel()">🖋 글꼴 변경</button>
+    <div class="font-sz">
+      <span class="fsz-label">글씨</span>
+      <button class="fbtn" onclick="chFont(-1)">−</button>
+      <button class="fbtn" onclick="chFont(1)">＋</button>
+    </div>
+  </div>
+  <div class="tb-right">
+    <button class="tbtn" onclick="openPw()">🔒 관리자</button>
+  </div>
+</div>
+
+<!-- ══════ 글꼴 선택 패널 ══════ -->
+<div class="font-panel" id="fontPanel">
+  <span class="fp-label">글꼴 선택</span>
+  <button class="fpbtn sel" onclick="setFont('Noto Sans KR','Noto Serif KR',this)">기본체</button>
+  <button class="fpbtn" onclick="setFont('Gowun Dodum','Hahmlet',this)">고운돋움</button>
+  <button class="fpbtn" onclick="setFont('Hahmlet','Hahmlet',this)" style="font-family:'Hahmlet',serif;">함렛체</button>
+  <button class="fpbtn" onclick="setFont('Gamja Flower','Gamja Flower',this)" style="font-family:'Gamja Flower',cursive;">감자꽃체</button>
+  <button class="fpbtn" onclick="setFont('Black Han Sans','Black Han Sans',this)" style="font-family:'Black Han Sans',sans-serif;">블랙한산스</button>
+</div>
+
+<!-- ══════ 사용자 화면 ══════ -->
+<div id="userView">
+
+<header>
+  <img id="hdrBg" alt="구암사">
+  <div class="hdr-inner">
+    <label class="upload-btn" for="photoIn">📷 배경 사진 업로드</label>
+    <input type="file" id="photoIn" accept="image/*">
+    <div class="hdr-badge editable" contenteditable="true" title="클릭하여 수정">🏔 강원특별자치도 정선군 화암면 거북바위길96</div>
+    <h1 class="hdr-name">구암사</h1>
+    <span class="hdr-hanja">龜岩寺</span>
+    <p class="hdr-sub editable" contenteditable="true" title="클릭하여 수정">천년 고찰의 인연으로 삶의 길을 밝혀드립니다</p>
+  </div>
+</header>
+
+<!-- 입금계좌 배너 -->
+<div class="bank-banner">
+  <span class="bb-title">💳 예약금 입금 계좌</span>
+  <div class="bb-main editable" contenteditable="true" title="클릭하여 수정">
+    신한은행 <span>|</span> 11058-72-43961 <span>|</span> 강유리
+  </div>
+  <div class="bb-note editable" contenteditable="true" title="클릭하여 수정">📿 예약 접수 후 스님께서 방문 일정 안내와 함께 입금 방법을 알려드립니다</div>
+</div>
+
+<div class="dvd">☸</div>
+
+</div>
+
+<!-- ══════ 일지스님 소개 ══════ -->
+<div class="monk-intro">
+  <div class="mi-inner">
+    <div class="mi-photo-wrap">
+      <div class="mi-photo-placeholder" id="monkPhotoWrap">
+        <span class="mi-photo-icon">🧘</span>
+        <label class="mi-upload-btn" for="monkPhotoIn">📷 스님 사진 업로드</label>
+        <input type="file" id="monkPhotoIn" accept="image/*">
+        <img id="monkPhoto" alt="일지스님" style="display:none;">
+      </div>
+    </div>
+    <div class="mi-content">
+      <div class="mi-tag">구암사 주지스님</div>
+      <h3 class="mi-name">일지 스님 <span class="mi-hanja">一至</span></h3>
+      <div class="mi-divider"></div>
+      <p class="mi-desc editable" contenteditable="true" title="클릭하여 수정">
+        무속의 길에서 27년, 그 인연이 닿아 부처님 품으로 귀의하였습니다.<br>
+        두 세계를 모두 걸어온 스님만의 깊은 혜안으로<br>
+        삶의 길을 밝혀드립니다.
+      </p>
+      <div class="mi-info">
+        <span>📍 <span class="editable" contenteditable="true" title="클릭하여 수정">강원특별자치도 정선군 화암면 거북바위길96 구암사</span></span>
+        <span>📞 <span class="editable" contenteditable="true" title="클릭하여 수정">010-8794-1710</span></span>
+        <span>🏛 </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dvd">☸</div>
+
+<section class="hero">
+  <h2 class="hero-t">사주명리 상담 예약</h2>
+  <p class="hero-d">
+    불법(佛法)의 지혜와 명리학으로 풀어보는 나의 인연과 운명<br>
+    정선 구암사에서 삶의 방향과 길흉화복을 살펴드립니다
+  </p>
+</section>
+
+<main>
+  <div class="fcard">
+    <div class="slbl"><em>✦</em> 상담 예약 신청</div>
+
+    <form id="resForm">
+
+      <!-- 성함 / 연락처 -->
+      <div class="r2">
+        <div class="fg">
+          <label class="req">성함</label>
+          <input type="text" id="nm" placeholder="홍길동" required>
+        </div>
+        <div class="fg">
+          <label class="req">연락처</label>
+          <input type="tel" id="ph" placeholder="010-0000-0000" required>
+        </div>
+      </div>
+
+      <!-- 성별 -->
+      <div class="fg">
+        <label class="req">성별</label>
+        <div class="rdg">
+          <div class="ri">
+            <input type="radio" name="gender" id="male" value="남성" required>
+            <label for="male"><span class="rdot"></span> 남성</label>
+          </div>
+          <div class="ri">
+            <input type="radio" name="gender" id="female" value="여성">
+            <label for="female"><span class="rdot"></span> 여성</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 상담자 생년월일 (직접 입력) -->
+      <div class="fg">
+        <label class="req">상담자 생년월일</label>
+        <div class="r3">
+          <input type="text" id="by" placeholder="년도 (예: 1985)" maxlength="4" inputmode="numeric">
+          <input type="text" id="bm" placeholder="월 (예: 5)" maxlength="2" inputmode="numeric">
+          <input type="text" id="bdd" placeholder="일 (예: 23)" maxlength="2" inputmode="numeric">
+        </div>
+        <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;">
+          <div class="ri" style="max-width:120px;">
+            <input type="radio" name="caltype" id="solar" value="양력" checked>
+            <label for="solar" style="font-size:.85em;"><span class="rdot"></span> 양력</label>
+          </div>
+          <div class="ri" style="max-width:120px;">
+            <input type="radio" name="caltype" id="lunar" value="음력">
+            <label for="lunar" style="font-size:.85em;"><span class="rdot"></span> 음력</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 태어난 시 -->
+      <div class="fg">
+        <label>태어난 시간 <span style="font-size:.8em;color:var(--muted);font-weight:300;">(모르시면 비워두세요)</span></label>
+        <input type="text" id="bh" placeholder="예: 오전 10시, 자시, 모름">
+      </div>
+
+      <!-- 상담 유형 -->
+      <div class="fg">
+        <label class="req">상담 유형</label>
+        <select id="tp" required>
+          <option value="">선택하세요</option>
+          <option>종합사주 (운명·성격·적성)</option>
+          <option>신년운세</option>
+          <option>궁합 (연인·부부)</option>
+          <option>취업 · 진로</option>
+          <option>사업운</option>
+          <option>이사 · 택일</option>
+        </select>
+      </div>
+
+      <!-- 희망 방문 날짜 - 커스텀 달력 -->
+      <div class="fg">
+        <label class="req">희망 방문 날짜</label>
+        <input type="hidden" id="vd" required>
+        <div class="cal-widget">
+          <div class="cal-header">
+            <button type="button" class="cal-nav" onclick="calMove(-1)">&#9664;</button>
+            <span class="cal-title" id="calTitle"></span>
+            <button type="button" class="cal-nav" onclick="calMove(1)">&#9654;</button>
+          </div>
+          <div class="cal-days-label">
+            <span style="color:var(--red)">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span style="color:#4a6fa5">토</span>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-selected" id="calSelected">날짜를 선택해 주세요</div>
+        </div>
+      </div>
+
+      
+
+      <!-- 입금 안내 -->
+      <div class="bank-note">
+        <div class="bn-icon">🏦</div>
+        <div class="bn-body">
+          <span class="bn-title">입금 계좌 안내</span>
+          <span class="acct">신한은행 &nbsp;11058-72-43961<span class="acct-name">(강유리)</span></span><br>
+        </div>
+      </div>
+
+      <!-- 문의 사항 -->
+      <div class="fg">
+        <label>문의 사항 (선택)</label>
+        <textarea id="msg" placeholder="상담을 원하시는 내용이나 현재 고민하시는 사항을 편히 적어주세요. 스님께서 성심껏 살펴드리겠습니다."></textarea>
+      </div>
+
+      <div class="nbox">
+        <strong>🪷 방문 전 꼭 확인해 주세요</strong>
+        · 예약 접수 후 스님(담당자)이 직접 전화로 방문 날짜와 시간을 안내드립니다<br>
+        · 부득이한 사정으로 취소하실 경우 방문 전날까지 연락 주시면 감사하겠습니다<br>
+        · 상담 운영 시간: 오전 9시 ~ 오후 5시 (매주 일요일 휴무)<br>
+        · 문의 전화: <span class="editable" contenteditable="true" title="클릭하여 수정">010-8794-1710</span>
+      </div>
+
+      <button type="submit" class="subbtn">🙏 상담 예약 신청하기</button>
+    </form>
+  </div>
+</main>
+
+<footer>
+  🏔 <span class="editable" contenteditable="true" title="클릭하여 수정">강원특별자치도 정선군 화암면 거북바위길96 구암사</span><br>
+  사주명리 상담 · <span class="editable" contenteditable="true" title="클릭하여 수정">010-8794-1710</span><br>
+  상담 시간: 오전 9시 ~ 오후 5시 &nbsp;|&nbsp; 일요일 휴무<br>
+  <span style="color:var(--border)">─────</span><br>
+  <span style="font-size:.9em;letter-spacing:2px;color:var(--gold);">일체유심조 (一切唯心造)</span><br>
+  모든 것은 마음에서 비롯됩니다<br>
+  <span style="font-size:.78em;">© 2025 정선 구암사. All rights reserved.</span>
+</footer>
+</div><!-- /userView -->
+
+<!-- ══════ 관리자 화면 ══════ -->
+<div id="adminView">
+  <div class="apanel">
+    <div class="ahdr">
+      <div class="ahtit">🏮 구암사 <em>상담 예약 현황</em></div>
+      <button class="alout" onclick="logout()">로그아웃</button>
+    </div>
+    <div class="astats">
+      <div class="scard"><span class="snum" id="stTotal">0</span><div class="slb">전체 예약</div></div>
+      <div class="scard"><span class="snum" id="stToday">0</span><div class="slb">오늘 예약</div></div>
+      <div class="scard"><span class="snum" id="stUp">0</span><div class="slb">예정 예약</div></div>
+    </div>
+    <div class="aflt">
+      <button class="fltbtn on" onclick="setFlt('all',this)">전체</button>
+      <button class="fltbtn" onclick="setFlt('today',this)">오늘</button>
+      <button class="fltbtn" onclick="setFlt('upcoming',this)">예정</button>
+      <input class="fsrch" id="srch" type="text" placeholder="이름·연락처·유형 검색..." oninput="render()">
+    </div>
+    <div class="rlist" id="rlist"></div>
+  </div>
+</div>
+
+<!-- ══════ 예약 완료 모달 ══════ -->
+<div class="movl" id="cModal">
+  <div class="mbox">
+    <span class="mico">🪷</span>
+    <div class="mtit">상담 예약이 접수되었습니다</div>
+    <p class="mdsc">스님께서 인연에 맞는 날짜와 시간을 살펴<br>입력하신 연락처로 직접 연락드리겠습니다.</p>
+    <div class="minf" id="mInf"></div>
+    <p class="mdsc" style="font-size:.8em;">구암사와의 소중한 인연에 감사드립니다 🙏<br><span style="font-size:.9em;color:var(--gold);">원하시는 바 이루시길 불보살님께 기원합니다</span></p>
+    <button class="mclose" onclick="closeM()">확인</button>
+  </div>
+</div>
+
+<!-- ══════ 비밀번호 모달 ══════ -->
+<div class="pwovl" id="pwModal">
+  <div class="pwbox">
+    <div class="pwtit">🔐 관리자 인증</div>
+    <div class="pwsub">비밀번호를 입력해 주세요</div>
+    <input class="pwinp" type="password" id="pwIn" maxlength="8" placeholder="••••"
+      onkeydown="if(event.key==='Enter')chkPw()">
+    <div class="pwerr" id="pwErr"></div>
+    <button class="pwok" onclick="chkPw()">확인</button><br>
+    <button class="pwcnc" onclick="closePwM()">취소</button>
+  </div>
+</div>
+
+<script>
+  let rsvs = [];
+  let flt  = 'all';
+  let fsize = 15;
+  let bhDirectVal = '';
+
+  /* ── 태어난 시 직접입력 토글 ── */
+  function toggleBhInput(val){
+    const direct = document.getElementById('bhDirect');
+    if(val === '__direct__'){
+      direct.style.display = 'block';
+      direct.focus();
+    } else {
+      direct.style.display = 'none';
+      bhDirectVal = '';
+    }
+  }
+
+  /* ── 편집 힌트 ── */
+  document.addEventListener('DOMContentLoaded', function(){
+    const hint = document.getElementById('editHint');
+    document.querySelectorAll('.editable').forEach(el=>{
+      el.addEventListener('focus', ()=>{ if(hint) hint.classList.add('show'); });
+      el.addEventListener('blur',  ()=>{ if(hint) hint.classList.remove('show'); });
+    });
+  });
+
+  /* ── 글꼴 패널 ── */
+  function toggleFontPanel(){
+    document.getElementById('fontPanel').classList.toggle('open');
+  }
+  function setFont(body, serif, btn){
+    document.documentElement.style.setProperty('--body-font', `'${body}', sans-serif`);
+    document.documentElement.style.setProperty('--serif-font', `'${serif}', serif`);
+    document.querySelectorAll('.fpbtn').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel');
+  }
+
+  /* ── 글씨 크기 ── */
+  function chFont(d){
+    fsize = Math.max(12, Math.min(22, fsize + d));
+    document.documentElement.style.setProperty('--base', fsize + 'px');
+  }
+
+  /* ── 사진 업로드 (배경) ── */
+  document.getElementById('photoIn').addEventListener('change', function(e){
+    const f = e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      const img = document.getElementById('hdrBg');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+    };
+    r.readAsDataURL(f);
+  });
+
+  /* ── 스님 사진 업로드 ── */
+  document.getElementById('monkPhotoIn').addEventListener('change', function(e){
+    const f = e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      const img = document.getElementById('monkPhoto');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+      document.querySelector('.mi-photo-icon').style.display = 'none';
+      document.querySelector('.mi-upload-btn').style.opacity = '0.6';
+    };
+    r.readAsDataURL(f);
+  });
+
+  /* ── 날짜 최소값 ── */
+  const todayStr = new Date().toISOString().split('T')[0];
+  document.getElementById('vd').min = todayStr;
+
+  /* ── 전화번호 포맷 ── */
+  document.getElementById('ph').addEventListener('input', function(e){
+    let v = e.target.value.replace(/\D/g,'');
+    if(v.length >= 11) v = v.slice(0,11);
+    if(v.length > 7) v = v.slice(0,3)+'-'+v.slice(3,7)+'-'+v.slice(7);
+    else if(v.length > 3) v = v.slice(0,3)+'-'+v.slice(3);
+    e.target.value = v;
+  });
+
+  /* 숫자만 허용 */
+  ['by','bm','bdd'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', function(e){
+      e.target.value = e.target.value.replace(/\D/g,'');
+    });
+  });
+
+  /* ── 예약 제출 ── */
+  document.getElementById('resForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const name   = document.getElementById('nm').value.trim();
+    const phone  = document.getElementById('ph').value.trim();
+    const gender = document.querySelector('input[name="gender"]:checked');
+    const by     = document.getElementById('by').value.trim();
+    const bm     = document.getElementById('bm').value.trim();
+    const bdd    = document.getElementById('bdd').value.trim();
+    const cal    = document.querySelector('input[name="caltype"]:checked')?.value || '양력';
+    const bh = document.getElementById('bh').value.trim() || '시간 모름';
+    const type   = document.getElementById('tp').value;
+    const vdate  = document.getElementById('vd').value;
+    const vtime = '시간 미정';
+    const memo   = document.getElementById('msg').value.trim();
+
+    if(!gender){ alert('성별을 선택해 주세요.'); return; }
+    if(!by || !bm || !bdd){ alert('생년월일을 모두 입력해 주세요.'); return; }
+
+    const birthStr = `${by}년 ${bm}월 ${bdd}일 (${cal}) · ${bh}`;
+    const vd2      = new Date(vdate);
+    const days     = ['일','월','화','수','목','금','토'];
+    const visitStr = `${vd2.getFullYear()}년 ${vd2.getMonth()+1}월 ${vd2.getDate()}일(${days[vd2.getDay()]})`;
+
+    const obj = { id:Date.now(), name, phone, gender:gender.value, birthStr, type, vdate, visitStr, memo, at:new Date().toLocaleString('ko-KR') };
+    rsvs.push(obj);
+
+    document.getElementById('mInf').innerHTML =
+      `<strong style="color:var(--gold);font-size:.8em;letter-spacing:1px;">예약 정보</strong><br>
+       성함 : ${name} (${gender.value})<br>
+       연락처 : ${phone}<br>
+       생년월일 : ${birthStr}<br>
+       상담 유형 : ${type}<br>
+       희망 날짜 : ${visitStr}<br>
+       <div class="mbank">
+         💳 입금 계좌 : 신한은행 11058-72-43961 (강유리)<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;방문 시간은 담당자가 연락드립니다
+       </div>`;
+
+    document.getElementById('cModal').classList.add('on');
+  });
+
+  function closeM(){
+    document.getElementById('cModal').classList.remove('on');
+    document.getElementById('resForm').reset();
+  }
+  document.getElementById('cModal').addEventListener('click', e=>{ if(e.target.id==='cModal') closeM(); });
+
+  /* ── 비밀번호 ── */
+  function openPw(){
+    document.getElementById('pwIn').value='';
+    document.getElementById('pwErr').textContent='';
+    document.getElementById('pwModal').classList.add('on');
+    setTimeout(()=>document.getElementById('pwIn').focus(), 300);
+  }
+  function closePwM(){ document.getElementById('pwModal').classList.remove('on'); }
+  document.getElementById('pwModal').addEventListener('click', e=>{ if(e.target.id==='pwModal') closePwM(); });
+
+  function chkPw(){
+    const pw = document.getElementById('pwIn').value;
+    if(pw === '0524'){
+      closePwM();
+      document.getElementById('userView').style.display = 'none';
+      document.getElementById('adminView').style.display = 'block';
+      render();
+    } else {
+      document.getElementById('pwErr').textContent = '비밀번호가 올바르지 않습니다';
+      document.getElementById('pwIn').value = '';
+      document.getElementById('pwIn').focus();
+      setTimeout(()=>{ document.getElementById('pwErr').textContent=''; }, 2000);
+    }
+  }
+  function logout(){
+    document.getElementById('adminView').style.display = 'none';
+    document.getElementById('userView').style.display = 'block';
+  }
+
+  /* ── 관리자 필터 ── */
+  function setFlt(f, btn){
+    flt = f;
+    document.querySelectorAll('.fltbtn').forEach(b=>b.classList.remove('on'));
+    if(btn) btn.classList.add('on');
+    render();
+  }
+
+  /* ── 예약 목록 렌더 ── */
+  function render(){
+    const q = (document.getElementById('srch')?.value||'').trim().toLowerCase();
+    const today = new Date().toISOString().split('T')[0];
+    let list = rsvs.filter(r=>{
+      if(flt==='today')    return r.vdate === today;
+      if(flt==='upcoming') return r.vdate >= today;
+      return true;
+    });
+    if(q) list = list.filter(r=> r.name.includes(q)||r.phone.includes(q)||r.type.includes(q));
+    list.sort((a,b)=> a.vdate.localeCompare(b.vdate));
+
+    const todayCnt = rsvs.filter(r=>r.vdate===today).length;
+    const upCnt    = rsvs.filter(r=>r.vdate>=today).length;
+    document.getElementById('stTotal').textContent = rsvs.length;
+    document.getElementById('stToday').textContent = todayCnt;
+    document.getElementById('stUp').textContent    = upCnt;
+
+    const el = document.getElementById('rlist');
+    if(!list.length){
+      el.innerHTML = `<div class="empty"><span class="ei">📭</span>${q?'검색 결과가 없습니다':'접수된 예약이 없습니다'}</div>`;
+      return;
+    }
+    const days = ['일','월','화','수','목','금','토'];
+    el.innerHTML = list.map(r=>{
+      const vd3 = new Date(r.vdate);
+      const dl  = `${vd3.getMonth()+1}월 ${vd3.getDate()}일 (${days[vd3.getDay()]}) — 일지 스님 시간 안내 예정`;
+      return `<div class="rcard">
+        <div>
+          <div class="rname">${r.name}<span class="gbadge">${r.gender}</span></div>
+          <div class="rdet">
+            <strong>📞</strong> ${r.phone}&nbsp;&nbsp;
+            <strong>🎂</strong> ${r.birthStr}<br>
+            <strong>📝</strong> ${r.type}
+            ${r.memo ? `<br><strong>💬</strong> ${r.memo}` : ''}
+            <br><span style="font-size:.78em;color:rgba(122,106,80,.5);">접수: ${r.at}</span>
+          </div>
+        </div>
+        <div class="rvis">
+          <span class="vdate">🗓 ${dl}</span>
+          <span class="rtbadge">${r.type}</span>
+          <span class="rno">접수 #${String(r.id).slice(-6)}</span>
+          <button class="rdel" onclick="delRes(${r.id})">삭제</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function delRes(id){
+    if(!confirm('이 예약을 삭제하시겠습니까?')) return;
+    rsvs = rsvs.filter(r=>r.id!==id);
+    render();
+  }
+
+  /* ── 커스텀 달력 ── */
+  let calYear, calMonth, calPickedDate = '';
+  const calToday = new Date();
+
+  function calInit(){
+    calYear  = calToday.getFullYear();
+    calMonth = calToday.getMonth();
+    calRender();
+  }
+
+  function calMove(dir){
+    calMonth += dir;
+    if(calMonth > 11){ calMonth=0; calYear++; }
+    if(calMonth < 0){ calMonth=11; calYear--; }
+    calRender();
+  }
+
+  function calRender(){
+    const months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+    document.getElementById('calTitle').textContent = calYear + '년 ' + months[calMonth];
+
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const lastDate = new Date(calYear, calMonth+1, 0).getDate();
+    const todayStr = calToday.toISOString().split('T')[0];
+
+    // 빈칸
+    for(let i=0; i<firstDay; i++){
+      const el = document.createElement('div');
+      el.className = 'cal-day cal-empty';
+      grid.appendChild(el);
+    }
+
+    for(let d=1; d<=lastDate; d++){
+      const dateStr = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+      const dow = new Date(calYear, calMonth, d).getDay();
+      const el = document.createElement('div');
+      el.textContent = d;
+      let cls = 'cal-day';
+      if(dow===0) cls += ' cal-sun';
+      if(dow===6) cls += ' cal-sat';
+      if(dateStr < todayStr) cls += ' cal-past';
+      if(dateStr === todayStr) cls += ' cal-today';
+      if(dateStr === calPickedDate) cls += ' cal-selected';
+      el.className = cls;
+      if(dateStr >= todayStr){
+        el.onclick = ()=>{ calPick(dateStr, d, dow); };
+      }
+      grid.appendChild(el);
+    }
+  }
+
+  function calPick(dateStr, d, dow){
+    calPickedDate = dateStr;
+    document.getElementById('vd').value = dateStr;
+    const days = ['일','월','화','수','목','금','토'];
+    const months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+    const sel = document.getElementById('calSelected');
+    sel.textContent = '✅ ' + calYear + '년 ' + months[calMonth] + ' ' + d + '일 (' + days[dow] + ') 선택됨';
+    sel.className = 'cal-selected picked';
+    calRender();
+  }
+
+  calInit();
+
+</script>
+<div class="edit-hint" id="editHint">✏️ 수정 후 바깥을 클릭하면 저장됩니다</div>
+</body>
+</html>
